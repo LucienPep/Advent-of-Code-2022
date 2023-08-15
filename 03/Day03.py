@@ -1,37 +1,35 @@
 #Advent Day 03
 #Part 1
-with open("RucksackData.txt", "r") as rucksackData:
-    sackData = rucksackData.readlines()
-    finalDataList = []
+with open("RucksackData.txt", "r") as f:
+    sackData = f.readlines()
+    commonElements = []
 
     for line in sackData:
-        lineLength = len(line)
-        first = slice(0,lineLength//2)      
-        second = slice(lineLength//2, lineLength)
-        firstHalf = line[first]
-        secondHalf = line[second]
-        firstSet = set()
+        first = line[: len(line) // 2]
+        second = line[len(line) // 2 :]
+        commonElements += set(first).intersection(second)
+    
+totalValue = 0
+for letter in commonElements:
+    totalValue += ord(letter) - (96 if letter.islower() else 38)
 
-        for char in firstHalf:
-            firstSet.add(char)
+print(totalValue)
+
+#Part 2
+commonElements = []
+for line in sackData:
+    i = sackData.index(line) - 1
+    if i % 3 == 0:
+        commonElements += set(sackData[i]).intersection(sackData[i + 1], sackData[i + 2])
         
-        for char in secondHalf:
-            if char in firstSet:
-                finalDataList.append(char)
-                break
-    
-    totalValue = 0
-
-    characterDictionary = {}
-    charInput = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    charList = list(charInput)
-
-    for char in finalDataList:
-        charValue = (charList.index(char) + 1)
-        totalValue += charValue
-    
-    print(totalValue)
-    print("banana")
+totalValue = 0
+for letter in commonElements:
+    i = ord(letter)
+    if i != 10:
+        totalValue += i - (96 if letter.islower() else 38)
+        
+print(totalValue)
+            
             
     
             
