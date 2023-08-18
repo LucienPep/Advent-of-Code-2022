@@ -1,53 +1,51 @@
 #Advent Day 05
-#Part 1
 import copy
 with open("CrateData.txt") as f:
     crateData = [i.strip() for i in f.readlines()]
 
-stackData = [
-    ["F", "D", "B", "Z", "T", "J", "R", "N"],
-    ["R", "S", "N", "J", "H"],
-    ["C", "R", "N", "J", "G", "Z", "F", "Q"],
-    ["F", "V", "N", "G", "R", "T", "Q"],
-    ["L", "T", "Q", "F"],
-    ["Q", "C", "W", "Z", "B", "R", "G", "N"],
-    ["F", "C", "L", "S", "N", "H", "M"],
-    ["D", "N", "Q", "M", "T", "J"],
-    ["P", "G", "S"]
-]
+stackData = []
+for i in range(1, 34, 4):
+    try:
+        dataTemp = []
+        for x in range(7, -1, -1):
+            if crateData[x][i] == ' ':
+                break
+            else:
+                dataTemp.append(crateData[x][i])
+        stackData.append(dataTemp)
+    except:
+        stackData.append(dataTemp)
+        continue
+
 stackDataCopy = copy.deepcopy(stackData)
 
-def partOne(stacks):
+def finalCrateStack(stacks, key):
+    print("Part0" + str(key))
+    finalOutput = ''
+
     for line in range(10, 513):
         move, stack = crateData[line].split(" from ")
         stack = [int(i) for i in stack.split(" to ")]
         move = move.removeprefix("move ")
+    
+        if key == 1:
+            for _ in range(0, int(move)):
+                x = stacks[int(stack[0]) - 1].pop()
+                stacks[int(stack[1]) - 1].append(x)
+        
+        if key == 2:
+            z = []
+            for _ in range(0, int(move)):
+                x = [stacks[int(stack[0]) - 1].pop()]
+                z.append(x[0])
 
-        for i in range(0, int(move)):
-            x = stacks[int(stack[0]) - 1].pop()
-            stacks[int(stack[1]) - 1].append(x)
-    print("Part01")
+            for _ in range(0, int(move)):
+                x = z.pop()
+                stacks[int(stack[1]) - 1].append(x)
+
     for line in stacks:
-        print(line[-1])
+        finalOutput += line[-1]
+    print(finalOutput)
 
-#Part02
-def partTwo(stacks):
-    for line in range(10, 513):
-        z = []
-        move, stack = crateData[line].split(" from ")
-        stack = [int(i) for i in stack.split(" to ")]
-        move = move.removeprefix("move ")
-
-        for i in range(0, int(move)):
-            x = [stacks[int(stack[0]) - 1].pop()]
-            z.append(x[0])
-
-        for i in range(0, int(move)):
-            x = z.pop()
-            stacks[int(stack[1]) - 1].append(x)
-    print("Part02")
-    for line in stacks:
-        print(line[-1])
-
-partOne(stackData)
-partTwo(stackDataCopy)
+finalCrateStack(stackData, 1)
+finalCrateStack(stackDataCopy, 2)
