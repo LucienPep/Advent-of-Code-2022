@@ -2,26 +2,18 @@
 with open("SignalInput.txt") as f:
     signalData = f.read()
 
-for i in range(0, len(signalData)):
-    tempList = []
-    tempSet = set()
-    for x in range(0, 4):
-        tempList.append(signalData[i + x])
-    answer = any(char in tempSet or tempSet.add(char) for char in tempList)
-    
-    if answer == False:
-        print(tempList)
-        print(i + 4)
-        break
+def signalDecipher(x):
+    for i in range(0, len(signalData)):
+        tempList, tempSet = [], set()
+        for z in range(0, x):
+            tempList.append(signalData[i + z])
 
-for i in range(0, len(signalData)):
-    tempList = []
-    tempSet = set()
-    for x in range(0, 14):
-        tempList.append(signalData[i + x])
-    answer = any(char in tempSet or tempSet.add(char) for char in tempList)
-    
-    if answer == False:
-        print(tempList)
-        print(i + 14)
-        break
+        answer = any(char in tempSet or tempSet.add(char) for char in tempList)
+        if answer == False:
+            print(i + x)
+            break
+
+print("Part01")
+signalDecipher(4)
+print("Part02")
+signalDecipher(14)
