@@ -3,9 +3,9 @@ with open("SignalInput.txt") as f:
     signalData = f.read()
 
 def signalDecipher(x):
-    for i in range(0, len(signalData)):
+    for i in range(len(signalData)):
         tempList, tempSet = [], set()
-        for z in range(0, x):
+        for z in range(x):
             tempList.append(signalData[i + z])
 
         answer = any(char in tempSet or tempSet.add(char) for char in tempList)
